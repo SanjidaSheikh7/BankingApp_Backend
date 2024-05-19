@@ -23,10 +23,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(name="father_name")
-    private String fName;
-    @Column(name="mother_name")
-    private String mName;
+//    @Column(name="father_name")
+    private String father_name;
+//    @Column(name="mother_name")
+    private String mother_name;
     private String phoneNo;
     private String email;
     private Date dob;
@@ -54,8 +54,8 @@ public class User {
                         AccountType accountType){
         this.setId(userModel.getId());
         this.setName(userModel.getName());
-        this.setFName(userModel.getFName());
-        this.setMName(userModel.getMName());
+        this.setFather_name(userModel.getFather_name());
+        this.setMother_name(userModel.getMother_name());
         this.setPhoneNo(userModel.getPhoneNo());
         this.setEmail(userModel.getEmail());
         this.setDob(userModel.getDob());
@@ -72,8 +72,8 @@ public class User {
                            Gender gender,
                            AccountType accountType){
         this.setName(userModel.getName());
-        this.setFName(userModel.getFName());
-        this.setMName(userModel.getMName());
+        this.setFather_name(userModel.getFather_name());
+        this.setMother_name(userModel.getMother_name());
         this.setPhoneNo(userModel.getPhoneNo());
         this.setEmail(userModel.getEmail());
         this.setDob(userModel.getDob());

@@ -1,7 +1,9 @@
 package com.example.BankingApp.controller;
 
+import com.example.BankingApp.model.ApiResponse;
 import com.example.BankingApp.model.UserModel;
 import com.example.BankingApp.service.UserService;
+import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,22 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private final UserService userService;
+
+    @GetMapping("/pagination")
+    public ResponseEntity<ApiResponse> getUserPagination(@Nullable @RequestParam("userName") String userName,
+                                                            @RequestParam(defaultValue = "1") int page,
+                                                            @RequestParam(defaultValue = "10") int size,
+                                                            @RequestParam(defaultValue = "id") String sortCol,
+                                                            @RequestParam(defaultValue = "ASC") String sortType) {
+        ApiResponse userModels = userService.getUserPagination(userName,page,size,sortCol,sortType);
+        return new ResponseEntity<>(userModels, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<UserModel> getUserById(@PathVariable Long id){
+        UserModel userModel=userService.getUserById(id);
+        return new ResponseEntity<>(userModel,HttpStatus.OK);
+    }
 
     @PostMapping(path ="/create" )
     public ResponseEntity<UserModel> createUser(@RequestBody UserModel userModel){

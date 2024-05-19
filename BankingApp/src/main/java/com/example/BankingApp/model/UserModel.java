@@ -20,8 +20,8 @@ import java.util.Date;
 public class UserModel {
     private Long id;
     private String name;
-    private String fName;
-    private String mName;
+    private String father_name;
+    private String mother_name;
     private String phoneNo;
     private String email;
     private Date dob;
@@ -40,8 +40,8 @@ public class UserModel {
                                   AccountModel accountModel){
         this.setId(user.getId());
         this.setName(user.getName());
-        this.setFName(user.getFName());
-        this.setMName(user.getMName());
+        this.setFather_name(user.getFather_name());
+        this.setMother_name(user.getMother_name());
         this.setPhoneNo(user.getPhoneNo());
         this.setEmail(user.getEmail());
         this.setDob(user.getDob());
