@@ -2,12 +2,14 @@ package com.example.BankingApp.entity;
 
 
 import com.example.BankingApp.model.AccountsModel;
+import com.example.BankingApp.util.ConvertDate;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 @Entity
 @AllArgsConstructor
@@ -20,14 +22,13 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-//    @Column(name="father_name")
     private String father_name;
-//    @Column(name="mother_name")
     private String mother_name;
     private String phoneNo;
     private String email;
     private Date dob;
     private String address;
+    private String pattern;
 
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -45,7 +46,7 @@ public class Accounts {
     private AccountType accountType;
 
 
-    public Accounts SetUser(AccountsModel accountsModel,
+    public Accounts SetAccount(AccountsModel accountsModel,
                             Education education,
                             Gender gender,
                             AccountType accountType){
@@ -55,7 +56,7 @@ public class Accounts {
         this.setMother_name(accountsModel.getMother_name());
         this.setPhoneNo(accountsModel.getPhoneNo());
         this.setEmail(accountsModel.getEmail());
-        this.setDob(accountsModel.getDob());
+        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),"DD_MM_YYYY"));
         this.setAddress(accountsModel.getAddress());
         this.setGender(gender);
         this.setEducation(education);
@@ -73,14 +74,13 @@ public class Accounts {
         this.setMother_name(accountsModel.getMother_name());
         this.setPhoneNo(accountsModel.getPhoneNo());
         this.setEmail(accountsModel.getEmail());
-        this.setDob(accountsModel.getDob());
+        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),"DD_MM_YYYY"));
         this.setAddress(accountsModel.getAddress());
         this.setGender(gender);
         this.setEducation(education);
         this.setAccountType(accountType);
         return this;
     }
-
 
 }
 

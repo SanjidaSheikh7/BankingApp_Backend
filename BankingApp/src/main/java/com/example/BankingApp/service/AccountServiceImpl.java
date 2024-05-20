@@ -5,11 +5,14 @@ import com.example.BankingApp.entity.Accounts;
 import com.example.BankingApp.entity.Education;
 import com.example.BankingApp.entity.Gender;
 import com.example.BankingApp.exception.NotFoundException;
+import com.example.BankingApp.exception.NotValid;
 import com.example.BankingApp.model.*;
 import com.example.BankingApp.repository.AccountTypeRepository;
 import com.example.BankingApp.repository.EducationRepository;
 import com.example.BankingApp.repository.GenderRepository;
 import com.example.BankingApp.repository.AccountsRepository;
+import com.example.BankingApp.util.EmailValidator;
+import com.example.BankingApp.util.PhoneNumberValidator;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +31,8 @@ public class AccountServiceImpl implements AccountService {
     private final GenderRepository genderRepository;
     private final EducationRepository educationRepository;
     private final AccountTypeRepository accountTypeRepository;
+    private final PhoneNumberValidator phoneNumberValidator;
+    private final EmailValidator emailValidator;
 
     @Override
     public AccountsModel createAccount(AccountsModel accountsModel) {
@@ -40,7 +45,16 @@ public class AccountServiceImpl implements AccountService {
         AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountID())
                 .orElseThrow(()->new NotFoundException("Invalid Account Type" +
                         accountsModel.getAccountID() ));
-        Accounts accounts =new Accounts().SetUser(accountsModel,education,gender,accountType);
+        String phoneNumber = accountsModel.getPhoneNo();
+        if (!phoneNumberValidator.isValid(phoneNumber)) {
+            throw new NotValid("Invalid phone number: " + phoneNumber);
+        }
+        String email = accountsModel.getEmail();
+        if (!emailValidator.isValidEmail(email)) {
+            throw new NotValid("Invalid Email Address: " + email);
+        }
+
+        Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType);
         accounts = accountsRepository.save(accounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);

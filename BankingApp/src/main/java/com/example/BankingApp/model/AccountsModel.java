@@ -2,6 +2,7 @@ package com.example.BankingApp.model;
 
 
 import com.example.BankingApp.entity.Accounts;
+import com.example.BankingApp.util.ConvertDate;
 import lombok.*;
 
 
@@ -20,7 +21,7 @@ public class AccountsModel {
     private String mother_name;
     private String phoneNo;
     private String email;
-    private Date dob;
+    private String dob;
     private String address;
     private GenderModel genderModel;
     private EducationModel educationModel;
@@ -40,7 +41,7 @@ public class AccountsModel {
         this.setMother_name(accounts.getMother_name());
         this.setPhoneNo(accounts.getPhoneNo());
         this.setEmail(accounts.getEmail());
-        this.setDob(accounts.getDob());
+        this.setDob(ConvertDate.dateString(accounts.getDob(),ConvertDate.DD_MM_YYYY));
         this.setAddress(accounts.getAddress());
         this.setGenderModel(genderModel);
         this.setEducationModel(educationModel);
