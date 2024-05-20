@@ -1,6 +1,5 @@
 package com.example.BankingApp.entity;
 
-import com.example.BankingApp.model.AccountModel;
 import jakarta.persistence.*;
 import lombok.*;
 
