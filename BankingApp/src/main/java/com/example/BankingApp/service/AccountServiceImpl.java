@@ -11,6 +11,7 @@ import com.example.BankingApp.repository.AccountTypeRepository;
 import com.example.BankingApp.repository.EducationRepository;
 import com.example.BankingApp.repository.GenderRepository;
 import com.example.BankingApp.repository.AccountsRepository;
+import com.example.BankingApp.util.ConvertDate;
 import com.example.BankingApp.util.EmailValidator;
 import com.example.BankingApp.util.PhoneNumberValidator;
 import io.micrometer.common.util.StringUtils;
@@ -36,6 +37,15 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountsModel createAccount(AccountsModel accountsModel) {
+        if (!phoneNumberValidator.isValid(accountsModel.getPhoneNo())) {
+            throw new NotValid("Invalid phone number: " + accountsModel.getPhoneNo());
+        }
+        if (!emailValidator.isValidEmail(accountsModel.getEmail())) {
+            throw new NotValid("Invalid Email Address: " + accountsModel.getEmail());
+        }
+        if(ConvertDate.calculateAge(accountsModel.getDob())<18){
+            throw new NotValid("Under 18 years can not open an account ");
+        }
         Gender gender=genderRepository.findById(accountsModel.getGenderId())
                 .orElseThrow(()->new NotFoundException("Invalid Gender Type" +
                  accountsModel.getGenderId() ));
@@ -45,21 +55,12 @@ public class AccountServiceImpl implements AccountService {
         AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountID())
                 .orElseThrow(()->new NotFoundException("Invalid Account Type" +
                         accountsModel.getAccountID() ));
-        String phoneNumber = accountsModel.getPhoneNo();
-        if (!phoneNumberValidator.isValid(phoneNumber)) {
-            throw new NotValid("Invalid phone number: " + phoneNumber);
-        }
-        String email = accountsModel.getEmail();
-        if (!emailValidator.isValidEmail(email)) {
-            throw new NotValid("Invalid Email Address: " + email);
-        }
-
         Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType);
         accounts = accountsRepository.save(accounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);
         AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);
-        return new AccountsModel().SetUserModel(accounts,educationModel,genderModel, accountTypeModel);
+        return new AccountsModel().SetAccountModel(accounts,educationModel,genderModel, accountTypeModel);
     }
 
     @Override
@@ -82,7 +83,7 @@ public class AccountServiceImpl implements AccountService {
         List<AccountsModel> accountsModels =new ArrayList<>();
         if(!accountsPage.isEmpty()){
             accountsModels = accountsPage.getContent().stream()
-                    .map(accounts -> new AccountsModel().SetUserModel(accounts,
+                    .map(accounts -> new AccountsModel().SetAccountModel(accounts,
                                  new EducationModel().SetEducationModel(accounts.getEducation()),
                                  new GenderModel().SetGenderModel(accounts.getGender()),
                                  new AccountTypeModel().SetAccountModel(accounts.getAccountType())
@@ -101,7 +102,7 @@ public class AccountServiceImpl implements AccountService {
         EducationModel educationModel=new EducationModel().SetEducationModel(accounts.getEducation());
         GenderModel genderModel=new GenderModel().SetGenderModel(accounts.getGender());
         AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accounts.getAccountType());
-        return new AccountsModel().SetUserModel(accounts,educationModel,genderModel, accountTypeModel);
+        return new AccountsModel().SetAccountModel(accounts,educationModel,genderModel, accountTypeModel);
     }
 
     @Override
@@ -119,7 +120,7 @@ public class AccountServiceImpl implements AccountService {
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);
         AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);
-        return new AccountsModel().SetUserModel(existingAccounts,educationModel,genderModel, accountTypeModel);
+        return new AccountsModel().SetAccountModel(existingAccounts,educationModel,genderModel, accountTypeModel);
     }
 
     @Override

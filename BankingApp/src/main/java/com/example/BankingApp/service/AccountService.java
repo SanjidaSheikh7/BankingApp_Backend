@@ -1,7 +1,6 @@
 package com.example.BankingApp.service;
 
-import com.example.BankingApp.model.ApiResponse;
-import com.example.BankingApp.model.AccountsModel;
+import com.example.BankingApp.model.*;
 
 public interface AccountService {
     public AccountsModel createAccount(AccountsModel accountsModel);

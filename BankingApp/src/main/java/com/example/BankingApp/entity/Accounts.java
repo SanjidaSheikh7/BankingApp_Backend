@@ -4,8 +4,7 @@ package com.example.BankingApp.entity;
 import com.example.BankingApp.model.AccountsModel;
 import com.example.BankingApp.util.ConvertDate;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
+import java.util.Calendar;
 import lombok.*;
 
 import java.text.SimpleDateFormat;
@@ -56,7 +55,7 @@ public class Accounts {
         this.setMother_name(accountsModel.getMother_name());
         this.setPhoneNo(accountsModel.getPhoneNo());
         this.setEmail(accountsModel.getEmail());
-        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),"DD_MM_YYYY"));
+        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.DD_MM_YYYY));
         this.setAddress(accountsModel.getAddress());
         this.setGender(gender);
         this.setEducation(education);
