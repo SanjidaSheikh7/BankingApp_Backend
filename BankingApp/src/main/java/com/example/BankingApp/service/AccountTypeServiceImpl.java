@@ -1,6 +1,7 @@
 package com.example.BankingApp.service;
 
 import com.example.BankingApp.entity.AccountType;
+import com.example.BankingApp.exception.NotFoundException;
 import com.example.BankingApp.model.AccountTypeModel;
 import com.example.BankingApp.repository.AccountTypeRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class AccountTypeServiceImpl implements AccountTypeService{
             accountTypeModelList=accountTypeList.stream()
                     .map(accountType -> new AccountTypeModel()
                             .SetAccountModel(accountType)).toList();
+        }else {
+            throw new NotFoundException("No data in the database");
         }
         return accountTypeModelList;
     }

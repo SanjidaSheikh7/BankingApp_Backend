@@ -1,6 +1,7 @@
 package com.example.BankingApp.service;
 
 import com.example.BankingApp.entity.Gender;
+import com.example.BankingApp.exception.NotFoundException;
 import com.example.BankingApp.model.GenderModel;
 import com.example.BankingApp.repository.GenderRepository;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class GenderServiceImpl implements GenderService{
         if(!genderList.isEmpty()){
             genderModelList=genderList.stream()
                     .map(gender->new GenderModel().SetGenderModel(gender)).toList();
+        }else {
+            throw new NotFoundException("No data in the database");
         }
         return genderModelList;
     }

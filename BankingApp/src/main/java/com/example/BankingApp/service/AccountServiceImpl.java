@@ -88,6 +88,8 @@ public class AccountServiceImpl implements AccountService {
                                  new GenderModel().SetGenderModel(accounts.getGender()),
                                  new AccountTypeModel().SetAccountModel(accounts.getAccountType())
                     )).toList();
+        }else {
+            throw new NotFoundException("No account in the database");
         }
         ApiResponse apiResponse=new ApiResponse().SetResponse(accountsModels,
                 accountsPage.getTotalElements(),accountsPage.getTotalPages(),accountsPage.hasNext(),

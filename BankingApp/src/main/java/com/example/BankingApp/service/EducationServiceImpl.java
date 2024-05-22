@@ -1,6 +1,7 @@
 package com.example.BankingApp.service;
 
 import com.example.BankingApp.entity.Education;
+import com.example.BankingApp.exception.NotFoundException;
 import com.example.BankingApp.model.EducationModel;
 import com.example.BankingApp.repository.EducationRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ public class EducationServiceImpl implements EducationService {
         if(!educationList.isEmpty()){
             educationModelList=educationList.stream()
                     .map(education->new EducationModel().SetEducationModel(education)).toList();
+        }else {
+            throw new NotFoundException("No data in the database");
         }
         return educationModelList;
     }

@@ -18,7 +18,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/pagination")
-    public ResponseEntity<ApiResponse> getAccountPagination(@Nullable @RequestParam("userName") String accountName,
+    public ResponseEntity<ApiResponse> getAccountPagination(@Nullable @RequestParam("accountName") String accountName,
                                                             @RequestParam(defaultValue = "1") int page,
                                                             @RequestParam(defaultValue = "10") int size,
                                                             @RequestParam(defaultValue = "id") String sortCol,
