@@ -6,6 +6,7 @@ import com.example.BankingApp.repository.GenderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,8 +14,13 @@ import java.util.List;
 public class GenderServiceImpl implements GenderService{
     private final GenderRepository genderRepository;
     @Override
-    public GenderModel getAllGenderList() {
+    public List<GenderModel> getAllGenderList() {
         List<Gender> genderList=genderRepository.findAll();
-        return null;
+        List<GenderModel> genderModelList=new ArrayList<>();
+        if(!genderList.isEmpty()){
+            genderModelList=genderList.stream()
+                    .map(gender->new GenderModel().SetGenderModel(gender)).toList();
+        }
+        return genderModelList;
     }
 }

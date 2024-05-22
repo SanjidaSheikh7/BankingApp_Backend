@@ -6,14 +6,20 @@ import com.example.BankingApp.repository.EducationRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 @Service
 @AllArgsConstructor
 public class EducationServiceImpl implements EducationService {
     private final EducationRepository educationRepository;
     @Override
-    public EducationModel getAllEducationList() {
+    public List<EducationModel> getAllEducationList() {
         List<Education> educationList=educationRepository.findAll();
-        return null;
+        List<EducationModel> educationModelList=new ArrayList<>();
+        if(!educationList.isEmpty()){
+            educationModelList=educationList.stream()
+                    .map(education->new EducationModel().SetEducationModel(education)).toList();
+        }
+        return educationModelList;
     }
 }
