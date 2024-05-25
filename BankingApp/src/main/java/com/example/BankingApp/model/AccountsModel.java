@@ -28,7 +28,7 @@ public class AccountsModel {
     private AccountTypeModel accountTypeModel;
     private Long genderId;
     private Long educationId;
-    private Long accountID;
+    private Long accountTypeId;
 
 
     public AccountsModel SetAccountModel(Accounts accounts,
@@ -48,7 +48,7 @@ public class AccountsModel {
         this.setAccountTypeModel(accountTypeModel);
         this.setGenderId(genderModel.getId());
         this.setEducationId(educationModel.getId());
-        this.setAccountID(accountTypeModel.getId());
+        this.setAccountTypeId(accountTypeModel.getId());
         return this;
     }
 }

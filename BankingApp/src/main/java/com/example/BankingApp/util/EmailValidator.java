@@ -13,11 +13,11 @@ public class EmailValidator {
 //    private static final String pattern = "^(\\+\\d{1,3}[- ]?)?\\d{10}$";
 //    private static final Pattern emailPattern = Pattern.compile(pattern);
 
-    public boolean isValidEmail(String phoneNumber) {
-        if (phoneNumber == null) {
+    public boolean isValidEmail(String email) {
+        if (email == null) {
             return false;
         }
-        return phoneNumber.matches(emailPattern);
+        return email.matches(emailPattern);
     }
 //public boolean isValidEmail(String phoneNumber) {
 //    if (phoneNumber == null || phoneNumber.trim().isEmpty()) {

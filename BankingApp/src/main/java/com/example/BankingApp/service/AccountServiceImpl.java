@@ -52,9 +52,9 @@ public class AccountServiceImpl implements AccountService {
         Education education=educationRepository.findById(accountsModel.getEducationId())
                 .orElseThrow(()->new NotFoundException("Degree type not found" +
                         accountsModel.getEducationId() ));
-        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountID())
+        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
                 .orElseThrow(()->new NotFoundException("Invalid Account Type" +
-                        accountsModel.getAccountID() ));
+                        accountsModel.getAccountTypeId() ));
         Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType);
         accounts = accountsRepository.save(accounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
@@ -115,9 +115,9 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(()->new NotFoundException("Degree with id" + id + "not exists!"));
         Gender gender=genderRepository.findById(accountsModel.getGenderId())
                 .orElseThrow(()->new NotFoundException("Gender with id" + id + "not exists!"));
-        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountID())
+        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
                 .orElseThrow(()->new NotFoundException("Account Type with id" + id + "not exists!"));
-        existingAccounts = existingAccounts.UpdateUser(accountsModel,education,gender,accountType);
+        existingAccounts = existingAccounts.UpdateAccount(accountsModel,education,gender,accountType);
         existingAccounts = accountsRepository.save(existingAccounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);

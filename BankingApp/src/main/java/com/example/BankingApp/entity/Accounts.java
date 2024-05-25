@@ -27,7 +27,7 @@ public class Accounts {
     private String email;
     private Date dob;
     private String address;
-    private String pattern;
+//    private String pattern;
 
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -64,7 +64,7 @@ public class Accounts {
     }
 
 
-    public Accounts UpdateUser(AccountsModel accountsModel,
+    public Accounts UpdateAccount(AccountsModel accountsModel,
                                Education education,
                                Gender gender,
                                AccountType accountType){
