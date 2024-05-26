@@ -41,7 +41,7 @@ public class AccountsModel {
         this.setMother_name(accounts.getMother_name());
         this.setPhoneNo(accounts.getPhoneNo());
         this.setEmail(accounts.getEmail());
-        this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.DD_MM_YYYY));
+        this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.MM_DD_YYYY));
         this.setAddress(accounts.getAddress());
         this.setGenderModel(genderModel);
         this.setEducationModel(educationModel);
