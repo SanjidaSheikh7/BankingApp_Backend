@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
                  accountsModel.getGenderId() ));
         Education education=educationRepository.findById(accountsModel.getEducationId())
                 .orElseThrow(()->new NotFoundException("Degree type not found" +
-                        accountsModel.getEducationId() ));
+                        accountsModel.getEducationId()));
         AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
                 .orElseThrow(()->new NotFoundException("Invalid Account Type" +
                         accountsModel.getAccountTypeId() ));
@@ -125,6 +125,23 @@ public class AccountServiceImpl implements AccountService {
         return new AccountsModel().SetAccountModel(existingAccounts,educationModel,genderModel, accountTypeModel);
     }
 
+//    @Override
+//    public AccountsModel updateAccount(Long id, AccountsModel accountsModel) {
+//        Accounts existingAccounts = accountsRepository.findById(id)
+//                .orElseThrow(()->new NotFoundException("Account with id" + id + "not exists!"));
+//        Education education=educationRepository.findById(accountsModel.getEducationId())
+//                .orElseThrow(()->new NotFoundException("Degree with id" + id + "not exists!"));
+//        Gender gender=genderRepository.findById(accountsModel.getGenderId())
+//                .orElseThrow(()->new NotFoundException("Gender with id" + id + "not exists!"));
+//        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
+//                .orElseThrow(()->new NotFoundException("Account Type with id" + id + "not exists!"));
+//        existingAccounts = existingAccounts.UpdateAccount(accountsModel,education,gender,accountType);
+//        existingAccounts = accountsRepository.save(existingAccounts);
+//        EducationModel educationModel=new EducationModel().SetEducationModel(education);
+//        GenderModel genderModel=new GenderModel().SetGenderModel(gender);
+//        AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);
+//        return new AccountsModel().SetAccountModel(existingAccounts,educationModel,genderModel, accountTypeModel);
+//    }
     @Override
     public void deleteAccount(Long id) {
        accountsRepository.deleteById(id);

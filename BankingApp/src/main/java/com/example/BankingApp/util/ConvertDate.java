@@ -11,7 +11,7 @@ import java.util.Date;
 
 public class ConvertDate {
 
-    public static final String MM_DD_YYYY = "MM-dd-yyyy";
+    public static final String YYYY_MM_DD= "yyyy-mm-dd";
     public static Date stringToDate(String dateString, String format) {
         if (dateString == null || dateString.isEmpty()) {
             throw new NotValid("Input date string is null or empty");
@@ -21,7 +21,7 @@ public class ConvertDate {
             SimpleDateFormat dateFormat = new SimpleDateFormat(format);
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
-            throw new NotValid("Date parsing failed for input: " + dateString + " with format: " + format);
+            throw new NotValid("Date parsing stringToDate failed for input: " + dateString + " with format: " + format);
         }
     }
 
@@ -33,12 +33,12 @@ public class ConvertDate {
             SimpleDateFormat dateFormat = new SimpleDateFormat(format);
             return dateFormat.format(date);
         } catch (Exception e) {
-            throw new NotValid("Date parsing failed for input: " + date + " with format: " + format);
+            throw new NotValid("Date parsing dateToString failed for input: " + date + " with format: " + format);
         }
     }
 
     public static int calculateAge(String dateString){
-        Date dob=ConvertDate.stringToDate(dateString,ConvertDate.MM_DD_YYYY);
+        Date dob=ConvertDate.stringToDate(dateString,ConvertDate.YYYY_MM_DD);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dob);
         int year = calendar.get(Calendar.YEAR);

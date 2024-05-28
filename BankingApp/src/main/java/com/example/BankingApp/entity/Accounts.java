@@ -55,7 +55,7 @@ public class Accounts {
         this.setMother_name(accountsModel.getMother_name());
         this.setPhoneNo(accountsModel.getPhoneNo());
         this.setEmail(accountsModel.getEmail());
-        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.MM_DD_YYYY));
+        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.YYYY_MM_DD));
         this.setAddress(accountsModel.getAddress());
         this.setGender(gender);
         this.setEducation(education);
@@ -73,7 +73,7 @@ public class Accounts {
         this.setMother_name(accountsModel.getMother_name());
         this.setPhoneNo(accountsModel.getPhoneNo());
         this.setEmail(accountsModel.getEmail());
-        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),"DD_MM_YYYY"));
+        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.YYYY_MM_DD));
         this.setAddress(accountsModel.getAddress());
         this.setGender(gender);
         this.setEducation(education);

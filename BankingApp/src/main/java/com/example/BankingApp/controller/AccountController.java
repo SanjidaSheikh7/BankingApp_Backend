@@ -35,8 +35,8 @@ public class AccountController {
 
     @PostMapping(path ="/create" )
     public ResponseEntity<AccountsModel> createAccount(@RequestBody AccountsModel accountsModel){
-        AccountsModel newUser= accountService.createAccount(accountsModel);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        AccountsModel account= accountService.createAccount(accountsModel);
+        return new ResponseEntity<>(account, HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/update/{id}")

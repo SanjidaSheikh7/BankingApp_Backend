@@ -3,6 +3,7 @@ package com.example.BankingApp.model;
 
 import com.example.BankingApp.entity.Accounts;
 import com.example.BankingApp.util.ConvertDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -26,9 +27,13 @@ public class AccountsModel {
     private GenderModel genderModel;
     private EducationModel educationModel;
     private AccountTypeModel accountTypeModel;
+//    @JsonIgnore
     private Long genderId;
+//    @JsonIgnore
     private Long educationId;
+//    @JsonIgnore
     private Long accountTypeId;
+    private int age;
 
 
     public AccountsModel SetAccountModel(Accounts accounts,
@@ -41,11 +46,12 @@ public class AccountsModel {
         this.setMother_name(accounts.getMother_name());
         this.setPhoneNo(accounts.getPhoneNo());
         this.setEmail(accounts.getEmail());
-        this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.MM_DD_YYYY));
+        this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.YYYY_MM_DD));
         this.setAddress(accounts.getAddress());
         this.setGenderModel(genderModel);
         this.setEducationModel(educationModel);
         this.setAccountTypeModel(accountTypeModel);
+        this.setAge(ConvertDate.calculateAge(this.dob));
         this.setGenderId(genderModel.getId());
         this.setEducationId(educationModel.getId());
         this.setAccountTypeId(accountTypeModel.getId());
