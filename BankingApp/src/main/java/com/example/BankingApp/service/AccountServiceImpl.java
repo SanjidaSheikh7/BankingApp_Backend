@@ -5,7 +5,7 @@ import com.example.BankingApp.entity.Accounts;
 import com.example.BankingApp.entity.Education;
 import com.example.BankingApp.entity.Gender;
 import com.example.BankingApp.exception.NotFoundException;
-import com.example.BankingApp.exception.NotValid;
+import com.example.BankingApp.exception.NotValidException;
 import com.example.BankingApp.model.*;
 import com.example.BankingApp.repository.AccountTypeRepository;
 import com.example.BankingApp.repository.EducationRepository;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -38,13 +39,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountsModel createAccount(AccountsModel accountsModel) {
         if (!phoneNumberValidator.isValid(accountsModel.getPhoneNo())) {
-            throw new NotValid("Invalid phone number: " + accountsModel.getPhoneNo());
+            throw new NotValidException("Invalid phone number: " + accountsModel.getPhoneNo());
         }
         if (!emailValidator.isValidEmail(accountsModel.getEmail())) {
-            throw new NotValid("Invalid Email Address: " + accountsModel.getEmail());
+            throw new NotValidException("Invalid Email Address: " + accountsModel.getEmail());
         }
         if(ConvertDate.calculateAge(accountsModel.getDob())<18){
-            throw new NotValid("Under 18 years can not open an account ");
+            throw new NotValidException("Under 18 years can not open an account ");
         }
         Gender gender=genderRepository.findById(accountsModel.getGenderId())
                 .orElseThrow(()->new NotFoundException("Invalid Gender Type" +
@@ -55,7 +56,14 @@ public class AccountServiceImpl implements AccountService {
         AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
                 .orElseThrow(()->new NotFoundException("Invalid Account Type" +
                         accountsModel.getAccountTypeId() ));
-        Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType);
+        List<Long> accountsNoList=accountsRepository.findAll()
+                .stream()
+                .map(Accounts::getAccountNo)
+                .collect(Collectors.toList());
+        Long lastAccountNo = accountsNoList.isEmpty() ?
+                null : accountsNoList.get(accountsNoList.size() - 1);
+        Long accountNo=new Accounts().generateAccountNo(lastAccountNo,accountsModel,accountsNoList);
+        Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType,accountNo);
         accounts = accountsRepository.save(accounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);

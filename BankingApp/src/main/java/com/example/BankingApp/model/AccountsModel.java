@@ -27,11 +27,8 @@ public class AccountsModel {
     private GenderModel genderModel;
     private EducationModel educationModel;
     private AccountTypeModel accountTypeModel;
-//    @JsonIgnore
     private Long genderId;
-//    @JsonIgnore
     private Long educationId;
-//    @JsonIgnore
     private Long accountTypeId;
     private int age;
 

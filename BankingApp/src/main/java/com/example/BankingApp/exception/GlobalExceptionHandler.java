@@ -24,8 +24,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(NotValid.class)
-    public ResponseEntity<ApiResponse> handleNotValid(NotValid ex) {
+    @ExceptionHandler(AlreadyExistsException.class)
+    public ResponseEntity<ApiResponse> handleAlreadyExists(NotFoundException ex) {
+        ApiResponse response=new ApiResponse(false);
+        response.setError(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NotValidException.class)
+    public ResponseEntity<ApiResponse> handleNotValid(NotValidException ex) {
         ApiResponse response=new ApiResponse(false);
         response.setError(ex.getMessage());
         return ResponseEntity.status(HttpStatus.OK).body(response);

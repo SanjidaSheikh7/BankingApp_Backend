@@ -1,14 +1,14 @@
 package com.example.BankingApp.entity;
 
 
+import com.example.BankingApp.exception.AlreadyExistsException;
 import com.example.BankingApp.model.AccountsModel;
 import com.example.BankingApp.util.ConvertDate;
 import jakarta.persistence.*;
-import java.util.Calendar;
 import lombok.*;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -27,28 +27,43 @@ public class Accounts {
     private String email;
     private Date dob;
     private String address;
-//    private String pattern;
-
+    private Long accountNo;
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name="gender_id",referencedColumnName = "id")
     private Gender gender;
 
-
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name="eduType_id",referencedColumnName = "id")
     private Education education;
-
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name="accountType_id",referencedColumnName = "id")
     private AccountType accountType;
 
+//    public Accounts SetAccount(AccountsModel accountsModel,
+//                               Education education,
+//                               Gender gender,
+//                               AccountType accountType){
+//        this.setId(accountsModel.getId());
+//        this.setName(accountsModel.getName());
+//        this.setFather_name(accountsModel.getFather_name());
+//        this.setMother_name(accountsModel.getMother_name());
+//        this.setPhoneNo(accountsModel.getPhoneNo());
+//        this.setEmail(accountsModel.getEmail());
+//        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.YYYY_MM_DD));
+//        this.setAddress(accountsModel.getAddress());
+//        this.setGender(gender);
+//        this.setEducation(education);
+//        this.setAccountType(accountType);
+////        this.setAccountNo(accountNo);
+//        return this;
+//    }
 
     public Accounts SetAccount(AccountsModel accountsModel,
                             Education education,
                             Gender gender,
-                            AccountType accountType){
+                            AccountType accountType,Long accountNo){
         this.setId(accountsModel.getId());
         this.setName(accountsModel.getName());
         this.setFather_name(accountsModel.getFather_name());
@@ -60,7 +75,31 @@ public class Accounts {
         this.setGender(gender);
         this.setEducation(education);
         this.setAccountType(accountType);
+        this.setAccountNo(accountNo);
         return this;
+    }
+
+    public Long generateAccountNo(Long lastAccountNo, AccountsModel accountsModel,
+                                  List<Long> accountsList){
+        String lastSixDigitStr;
+        String monthDigits=ConvertDate.getMonth(accountsModel.getDob());
+        if (lastAccountNo == null) {
+            lastSixDigitStr="000000";
+        }else{
+            lastAccountNo++;
+            String lastAccountNoStr = lastAccountNo.toString();
+            lastSixDigitStr=lastAccountNoStr.length() <= 6 ?
+                    lastAccountNoStr : lastAccountNoStr.substring(lastAccountNoStr.length() - 6);
+        }
+
+        String accountNoStr="2024"+monthDigits+lastSixDigitStr;
+        Long generatedAccountNo=Long.parseLong(accountNoStr);
+        if(!accountsList.contains(generatedAccountNo)){
+           return generatedAccountNo;
+        }else{
+            throw new AlreadyExistsException("Account No. already exists");
+        }
+
     }
 
 
