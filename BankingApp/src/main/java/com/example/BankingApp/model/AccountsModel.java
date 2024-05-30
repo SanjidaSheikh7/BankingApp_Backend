@@ -31,6 +31,7 @@ public class AccountsModel {
     private Long educationId;
     private Long accountTypeId;
     private int age;
+    private Long accountNo;
 
 
     public AccountsModel SetAccountModel(Accounts accounts,
@@ -52,6 +53,20 @@ public class AccountsModel {
         this.setGenderId(genderModel.getId());
         this.setEducationId(educationModel.getId());
         this.setAccountTypeId(accountTypeModel.getId());
+        this.setAccountNo(accounts.getAccountNo());
+        return this;
+    }
+
+    public AccountsModel SetAccountDeposit(Accounts accounts){
+        this.setId(accounts.getId());
+        this.setName(accounts.getName());
+        this.setFather_name(accounts.getFather_name());
+        this.setMother_name(accounts.getMother_name());
+        this.setPhoneNo(accounts.getPhoneNo());
+        this.setEmail(accounts.getEmail());
+        this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.YYYY_MM_DD));
+        this.setAddress(accounts.getAddress());
+        this.setAccountNo(accounts.getAccountNo());
         return this;
     }
 }

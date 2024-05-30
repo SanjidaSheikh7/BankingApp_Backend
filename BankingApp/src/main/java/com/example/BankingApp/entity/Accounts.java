@@ -41,25 +41,6 @@ public class Accounts {
     @JoinColumn(name="accountType_id",referencedColumnName = "id")
     private AccountType accountType;
 
-//    public Accounts SetAccount(AccountsModel accountsModel,
-//                               Education education,
-//                               Gender gender,
-//                               AccountType accountType){
-//        this.setId(accountsModel.getId());
-//        this.setName(accountsModel.getName());
-//        this.setFather_name(accountsModel.getFather_name());
-//        this.setMother_name(accountsModel.getMother_name());
-//        this.setPhoneNo(accountsModel.getPhoneNo());
-//        this.setEmail(accountsModel.getEmail());
-//        this.setDob(ConvertDate.stringToDate(accountsModel.getDob(),ConvertDate.YYYY_MM_DD));
-//        this.setAddress(accountsModel.getAddress());
-//        this.setGender(gender);
-//        this.setEducation(education);
-//        this.setAccountType(accountType);
-////        this.setAccountNo(accountNo);
-//        return this;
-//    }
-
     public Accounts SetAccount(AccountsModel accountsModel,
                             Education education,
                             Gender gender,
