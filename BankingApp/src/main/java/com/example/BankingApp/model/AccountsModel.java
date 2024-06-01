@@ -67,6 +67,9 @@ public class AccountsModel {
         this.setDob(ConvertDate.dateToString(accounts.getDob(),ConvertDate.YYYY_MM_DD));
         this.setAddress(accounts.getAddress());
         this.setAccountNo(accounts.getAccountNo());
+//        this.setGenderId(accounts.getGender().getId());
+//        this.setEducationId(accounts.getEducation().getId());
+//        this.setAccountTypeId(accounts.getAccountType().getId());
         return this;
     }
 }

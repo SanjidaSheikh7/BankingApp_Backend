@@ -15,7 +15,7 @@ public class DepositModel {
     private Double amount;
     private String transactionId;
     private AccountsModel accountsModel;
-    private String depositeTime;
+    private String depositTime;
     private Long accountNo;
     public DepositModel SetDepositModel(Deposit deposit,AccountsModel accountsModel){
         this.setId(deposit.getId());
@@ -23,7 +23,7 @@ public class DepositModel {
         this.setTransactionId(deposit.getTransactionId());
         this.setAccountsModel(accountsModel);
         Date date=deposit.getDepositTime().getTime(); //convert calender to date
-        this.setDepositeTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD));
+        this.setDepositTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD));
         this.setAccountNo(accountsModel.getAccountNo());
         return this;
     }
