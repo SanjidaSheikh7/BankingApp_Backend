@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 public class DepositServiceImpl implements DepositService{
     private final DepositRepository depositRepository;
     private final AccountsRepository accountsRepository;
+    private final BalanceService balanceService;
     @Override
     public DepositModel createDeposit(DepositModel depositModel) {
          Accounts account=this.accountsRepository.findByAccountNo(depositModel.getAccountNo());
@@ -32,10 +33,11 @@ public class DepositServiceImpl implements DepositService{
          if(account !=null){
              deposit=new Deposit().SetDeposit(depositModel,account);
              deposit=depositRepository.save(deposit);
+             balanceService.updateCurrentBalance("deposit",deposit.getAmount(),account);
          }else{
              throw new NotFoundException("Account not exists");
          }
-         AccountsModel accountsModel=new AccountsModel().SetAccountDeposit(account);
+         AccountsModel accountsModel=new AccountsModel().SetAccountModel(account);
          return new DepositModel().SetDepositModel(deposit,accountsModel);
     }
 
@@ -59,7 +61,7 @@ public class DepositServiceImpl implements DepositService{
         if(!depositPage.isEmpty()){
             depositModels = depositPage.getContent().stream()
                     .map(deposits -> new DepositModel().SetDepositModel(deposits,
-                            new AccountsModel().SetAccountDeposit(deposits.getAccounts())
+                            new AccountsModel().SetAccountModel(deposits.getAccounts())
                     )).toList();
         }else {
             throw new NotFoundException("No Deposit in the database");

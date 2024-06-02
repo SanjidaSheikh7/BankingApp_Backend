@@ -28,6 +28,7 @@ public class Accounts {
     private Date dob;
     private String address;
     private Long accountNo;
+    private Double intialAmount;
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name="gender_id",referencedColumnName = "id")
@@ -57,6 +58,7 @@ public class Accounts {
         this.setEducation(education);
         this.setAccountType(accountType);
         this.setAccountNo(accountNo);
+        this.setIntialAmount(accountsModel.getIntialAmount());
         return this;
     }
 

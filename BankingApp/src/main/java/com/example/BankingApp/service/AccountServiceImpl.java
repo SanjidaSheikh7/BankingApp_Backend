@@ -1,9 +1,6 @@
 package com.example.BankingApp.service;
 
-import com.example.BankingApp.entity.AccountType;
-import com.example.BankingApp.entity.Accounts;
-import com.example.BankingApp.entity.Education;
-import com.example.BankingApp.entity.Gender;
+import com.example.BankingApp.entity.*;
 import com.example.BankingApp.exception.NotFoundException;
 import com.example.BankingApp.exception.NotValidException;
 import com.example.BankingApp.model.*;
@@ -16,6 +13,7 @@ import com.example.BankingApp.util.EmailValidator;
 import com.example.BankingApp.util.PhoneNumberValidator;
 import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountTypeRepository accountTypeRepository;
     private final PhoneNumberValidator phoneNumberValidator;
     private final EmailValidator emailValidator;
+    private final BalanceService balanceService;
 
     @Override
     public AccountsModel createAccount(AccountsModel accountsModel) {
@@ -65,6 +64,7 @@ public class AccountServiceImpl implements AccountService {
         Long accountNo=new Accounts().generateAccountNo(lastAccountNo,accountsModel,accountsNoList);
         Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType,accountNo);
         accounts = accountsRepository.save(accounts);
+        BalanceModel createBalance=balanceService.createBalance(accounts);
         EducationModel educationModel=new EducationModel().SetEducationModel(education);
         GenderModel genderModel=new GenderModel().SetGenderModel(gender);
         AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);

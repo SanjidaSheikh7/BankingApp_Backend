@@ -1,11 +1,10 @@
 package com.example.BankingApp.entity;
 
-import com.example.BankingApp.model.AccountsModel;
 import com.example.BankingApp.model.DepositModel;
+import com.example.BankingApp.model.WithdrawModel;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -15,23 +14,24 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class Deposit {
+public class Withdraw {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double amount;
-    private String transactionId;
-    private Calendar depositTime;
-//    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Double withdrawAmount;
+    private String withdrawTransactionId;
+    private Calendar withdrawTime;
+    //    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @ManyToOne(cascade = { CascadeType.ALL})
     @JoinColumn(name = "accountNo", referencedColumnName = "accountNo")
     private Accounts accounts;
 
-    public Deposit SetDeposit(DepositModel depositModel, Accounts accounts){
-        this.setAmount(depositModel.getAmount());
-        this.setTransactionId(UUID.randomUUID().toString());
+    public Withdraw SetWithdraw(WithdrawModel withdrawModel, Accounts accounts){
+        this.setId(withdrawModel.getId());
+        this.setWithdrawAmount(withdrawModel.getWithdrawAmount());
+        this.setWithdrawTransactionId(UUID.randomUUID().toString());
         Calendar calendar = Calendar.getInstance();
-        this.setDepositTime(calendar);
+        this.setWithdrawTime(calendar);
         this.setAccounts(accounts);
         return this;
     }
