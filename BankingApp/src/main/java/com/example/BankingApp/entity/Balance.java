@@ -19,7 +19,7 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double currentBalance;
-    @OneToOne(cascade = { CascadeType.ALL})
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     private Accounts accounts;
 

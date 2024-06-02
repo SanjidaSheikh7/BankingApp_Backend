@@ -30,7 +30,8 @@ public class Accounts {
     private Long accountNo;
     private Double intialAmount;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+//    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne
     @JoinColumn(name="gender_id",referencedColumnName = "id")
     private Gender gender;
 
