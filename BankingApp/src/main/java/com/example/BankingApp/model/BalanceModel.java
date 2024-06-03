@@ -14,7 +14,9 @@ public class BalanceModel {
     private Double currentBalance;
     private AccountsModel accountsModel;
     private long accountId;
+    private boolean success;
     public BalanceModel SetBalanceModel(Balance balance, AccountsModel accountsModel){
+        this.success=true;
         this.setId(balance.getId());
         this.setCurrentBalance(balance.getCurrentBalance());
         this.setAccountsModel(accountsModel);

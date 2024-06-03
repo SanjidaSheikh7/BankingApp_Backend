@@ -32,8 +32,8 @@ public class WithdrawServiceImpl implements WithdrawService{
         Withdraw withdraw;
         if(account !=null){
             withdraw=new Withdraw().SetWithdraw(withdrawModel,account);
-            withdraw=withdrawRepository.save(withdraw);
             balanceService.updateCurrentBalance("withdraw",withdraw.getWithdrawAmount(),account);
+            withdraw=withdrawRepository.save(withdraw);
         }else{
             throw new NotFoundException("Account not exists");
         }

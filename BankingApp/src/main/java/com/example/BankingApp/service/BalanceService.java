@@ -7,4 +7,5 @@ import com.example.BankingApp.model.DepositModel;
 public interface BalanceService {
     public BalanceModel createBalance(Accounts accounts);
     public void updateCurrentBalance(String balanceType,Double amount,Accounts account);
+    public BalanceModel getByAccountId(long id);
 }

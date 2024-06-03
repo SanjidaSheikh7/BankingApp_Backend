@@ -33,12 +33,14 @@ public class AccountsModel {
     private int age;
     private Long accountNo;
     private Double intialAmount;
+    private boolean success;
 
 
     public AccountsModel SetAccountModel(Accounts accounts,
                                       EducationModel educationModel,
                                       GenderModel genderModel,
                                       AccountTypeModel accountTypeModel){
+        this.success=true;
         this.setId(accounts.getId());
         this.setName(accounts.getName());
         this.setFather_name(accounts.getFather_name());
@@ -60,6 +62,7 @@ public class AccountsModel {
     }
 
     public AccountsModel SetAccountModel(Accounts accounts){
+        this.success=true;
         this.setId(accounts.getId());
         this.setName(accounts.getName());
         this.setFather_name(accounts.getFather_name());

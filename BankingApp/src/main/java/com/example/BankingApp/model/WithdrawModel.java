@@ -19,7 +19,9 @@ public class WithdrawModel {
     private Calendar withdrawTime;
     private AccountsModel accountsModel;
     private Long accountNo;
+    private boolean success;
     public WithdrawModel SetWithdrawModel(Withdraw withdraw, AccountsModel accountsModel){
+        this.success=true;
         this.setId(withdraw.getId());
         this.setWithdrawAmount(withdraw.getWithdrawAmount());
         this.setWithdrawTransactionId(UUID.randomUUID().toString());

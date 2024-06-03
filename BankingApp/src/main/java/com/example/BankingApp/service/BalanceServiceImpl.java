@@ -3,8 +3,10 @@ package com.example.BankingApp.service;
 import com.example.BankingApp.entity.Accounts;
 import com.example.BankingApp.entity.Balance;
 import com.example.BankingApp.exception.NotFoundException;
+import com.example.BankingApp.exception.NotValidException;
 import com.example.BankingApp.model.AccountsModel;
 import com.example.BankingApp.model.BalanceModel;
+import com.example.BankingApp.repository.AccountsRepository;
 import com.example.BankingApp.repository.BalanceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BalanceServiceImpl implements BalanceService {
     private final BalanceRepository balanceRepository;
+    private final AccountsRepository accountsRepository;
     @Override
     public BalanceModel createBalance(Accounts account) {
         Balance accounts=this.balanceRepository.findByAccounts_Id(account.getId());
@@ -32,7 +35,11 @@ public void updateCurrentBalance(String balanceType, Double amount, Accounts acc
         if ("deposit".equals(balanceType)) {
             currentAmount += amount;
         } else {
-            currentAmount -= amount;
+            if(amount<currentAmount){
+                currentAmount -= amount;
+            }else{
+                throw new NotValidException("Insufficient Account Balance");
+            }
         }
         balance.setCurrentBalance(currentAmount);
         this.balanceRepository.save(balance);
@@ -40,5 +47,15 @@ public void updateCurrentBalance(String balanceType, Double amount, Accounts acc
         throw new NotFoundException("Balance record not found for the account");
     }
 }
+
+    @Override
+    public BalanceModel getByAccountId(long accountId) {
+        Balance balance=this.balanceRepository.findByAccounts_Id(accountId);
+        Accounts account=this.accountsRepository.findById(accountId)
+                .orElseThrow(()->new NotFoundException
+                        ("User with id " + accountId + "not found!"));
+        AccountsModel accountsModel=new AccountsModel().SetAccountModel(account);
+        return new BalanceModel().SetBalanceModel(balance,accountsModel);
+    }
 
 }

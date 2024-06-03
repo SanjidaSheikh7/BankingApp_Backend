@@ -17,7 +17,9 @@ public class DepositModel {
     private AccountsModel accountsModel;
     private String depositTime;
     private Long accountNo;
+    private boolean success;
     public DepositModel SetDepositModel(Deposit deposit,AccountsModel accountsModel){
+        this.success=true;
         this.setId(deposit.getId());
         this.setAmount(deposit.getAmount());
         this.setTransactionId(deposit.getTransactionId());
