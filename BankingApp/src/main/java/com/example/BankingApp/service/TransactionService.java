@@ -6,5 +6,8 @@ import com.example.BankingApp.model.TransactionModel;
 import java.util.List;
 
 public interface TransactionService {
-    public ApiResponse getAllTransaction(String transactionType);
+//    public ApiResponse getAllTransaction(String transactionType);
+
+    ApiResponse getAllTransaction(String transactionType, int page, int size,
+                                  String sortCol, String sortType);
 }

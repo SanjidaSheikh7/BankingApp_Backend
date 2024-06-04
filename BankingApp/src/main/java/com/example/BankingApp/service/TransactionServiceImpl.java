@@ -1,15 +1,13 @@
 package com.example.BankingApp.service;
 
-import com.example.BankingApp.entity.Accounts;
 import com.example.BankingApp.entity.Deposit;
 import com.example.BankingApp.entity.Withdraw;
-import com.example.BankingApp.exception.NotFoundException;
 import com.example.BankingApp.model.*;
-import com.example.BankingApp.repository.AccountsRepository;
 import com.example.BankingApp.repository.DepositRepository;
 import com.example.BankingApp.repository.WithdrawRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,8 +24,8 @@ public class TransactionServiceImpl implements TransactionService{
     private final DepositRepository depositRepository;
     private final WithdrawRepository withdrawRepository;
     @Override
-    public ApiResponse getAllTransaction(String transactionType,int page, int size,
-                                         String sortCol,String sortType) {
+    public ApiResponse getAllTransaction(String transactionType, int page, int size,
+                                         String sortCol, String sortType) {
         List<TransactionModel> transactionModelList=new ArrayList<>();
         Page<Deposit> depositList = null;
         Page<Withdraw> withdrawList=null;
@@ -56,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService{
         }
 
         if(!withdrawList.isEmpty()){
-            List<TransactionModel> withdrawTransectionList = withdrawList.stream()
+            List<TransactionModel> withdrawTransectionList = withdrawList.getContent().stream()
                     .map(withdraw -> new TransactionModel().SetTransactionModelFromWithdraw(withdraw))
                     .toList();
             if(CollectionUtils.isNotEmpty(withdrawTransectionList)){
@@ -67,11 +65,12 @@ public class TransactionServiceImpl implements TransactionService{
         transactionModelList= transactionModelList.stream()
                 .sorted(Comparator.comparing(TransactionModel::getTransactionTime))
                 .toList();
-        Page<TransactionModel> transactionPage = toPage(transactionModelList, pageable);
+        PagedListHolder transactionModelPage = new PagedListHolder(transactionModelList);
 
-        ApiResponse apiResponse=new ApiResponse().SetResponse(transactionModelList,
-                transactionModelList.getTotalElements(),transactionModelList.getTotalPages(),transactionModelList.hasNext(),
-                transactionModelList.hasPrevious(),page);
+        ApiResponse apiResponse=new ApiResponse().SetTransactionResponse(transactionModelList,
+                transactionModelPage.getNrOfElements(),transactionModelPage.getPageCount(),transactionModelPage.isLastPage(),
+                transactionModelPage.isFirstPage(),page);
         return apiResponse;
     }
+
 }

@@ -27,8 +27,12 @@ public class TransactionController {
 //        return new ResponseEntity<>(transactionModelList, HttpStatus.OK);
 //    }
 @GetMapping("/list")
-public ResponseEntity<ApiResponse> getAllTeacherList(@Nullable @RequestParam(value="transactionType",defaultValue = "") String transactionType) {
-    ApiResponse transactionModelList = transactionService.getAllTransaction(transactionType);
+public ResponseEntity<ApiResponse> getAllTeacherList(@Nullable @RequestParam(value="transactionType",defaultValue = "") String transactionType,
+                                                            @RequestParam(defaultValue = "1") int page,
+                                                            @RequestParam(defaultValue = "10") int size,
+                                                            @RequestParam(defaultValue = "id") String sortCol,
+                                                            @RequestParam(defaultValue = "ASC") String sortType) {
+    ApiResponse transactionModelList = transactionService.getAllTransaction(transactionType,page,size,sortCol,sortType);
     return new ResponseEntity<>(transactionModelList, HttpStatus.OK);
 }
 }
