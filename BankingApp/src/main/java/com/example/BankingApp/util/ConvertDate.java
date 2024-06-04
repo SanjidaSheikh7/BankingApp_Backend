@@ -12,6 +12,7 @@ import java.util.Date;
 public class ConvertDate {
 
     public static final String YYYY_MM_DD= "yyyy-MM-dd";
+    public static final String YYYY_MM_DD_time= "yyyy-MM-dd HH:mm:ss";
     public static Date stringToDate(String dateString, String format) {
         if (dateString == null || dateString.isEmpty()) {
             throw new NotValidException("Input date string is null or empty");
