@@ -8,6 +8,6 @@ import java.util.List;
 public interface TransactionService {
 //    public ApiResponse getAllTransaction(String transactionType);
 
-    ApiResponse getAllTransaction(String transactionType, int page, int size,
+    ApiResponse getAllTransaction(String transactionType,Long accountNo, int page, int size,
                                   String sortCol, String sortType);
 }

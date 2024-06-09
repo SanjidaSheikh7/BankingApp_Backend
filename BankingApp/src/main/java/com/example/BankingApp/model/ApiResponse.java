@@ -20,8 +20,6 @@ public class ApiResponse {
     private int currentPage;
     private boolean success;
     private String message;
-    private boolean isFirst;
-    private boolean isLast;
     public ApiResponse(boolean success){
         this.success=success;
     }
@@ -35,20 +33,6 @@ public class ApiResponse {
         this.totalPages=totalPages;
         this.hasNext=hasNext;
         this.hasPrevious=hasPrevious;
-        this.currentPage=currentPage;
-        this.pages=General.getPages(totalPages,currentPage);
-        return this;
-    }
-
-    public ApiResponse SetTransactionResponse(Object data,long totalElements,int totalPages,
-                                   boolean isLast,boolean isFirst,int currentPage
-    ){
-        this.success=true;
-        this.data=data;
-        this.totalElements=totalElements;
-        this.totalPages=totalPages;
-        this.isLast=isLast;
-        this.isFirst=isFirst;
         this.currentPage=currentPage;
         this.pages=General.getPages(totalPages,currentPage);
         return this;

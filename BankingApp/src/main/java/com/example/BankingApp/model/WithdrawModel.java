@@ -28,7 +28,7 @@ public class WithdrawModel {
         this.setWithdrawAmount(withdraw.getWithdrawAmount());
         this.setWithdrawTransactionId(UUID.randomUUID().toString());
         Date date=withdraw.getWithdrawTime().getTime(); //convert calender to date
-        this.setWithdrawTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD));
+        this.setWithdrawTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD_time));
         this.setAccountsModel(accountsModel);
         this.setAccountNo(accountsModel.getAccountNo());
         return this;

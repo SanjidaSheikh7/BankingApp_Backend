@@ -25,7 +25,7 @@ public class DepositModel {
         this.setTransactionId(deposit.getTransactionId());
         this.setAccountsModel(accountsModel);
         Date date=deposit.getDepositTime().getTime(); //convert calender to date
-        this.setDepositTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD));
+        this.setDepositTime(ConvertDate.dateToString(date,ConvertDate.YYYY_MM_DD_time));
         this.setAccountNo(accountsModel.getAccountNo());
         return this;
     }
