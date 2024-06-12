@@ -23,3 +23,18 @@ INSERT INTO `account_type` (`id`, `type`,`status`)
 VALUES (2,'Saving Account',1);
 INSERT INTO `account_type` (`id`, `type`,`status`)
 VALUES (3,'Student Account',1);
+
+-- Chart start
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (1,'January', 1000,1);
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (2,'February', 2000,1);
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (3,'March', 3000,1);
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (4,'April', 4000,1);
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (5,'May', 5000,1);
+INSERT INTO `chart` (`id`, `month`, `cost`,`status`)
+VALUES (6,'June', 4000,1);
+
