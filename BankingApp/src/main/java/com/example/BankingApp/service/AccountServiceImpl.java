@@ -8,6 +8,7 @@ import com.example.BankingApp.repository.AccountTypeRepository;
 import com.example.BankingApp.repository.EducationRepository;
 import com.example.BankingApp.repository.GenderRepository;
 import com.example.BankingApp.repository.AccountsRepository;
+import com.example.BankingApp.util.BijoyToUnicodeConverter;
 import com.example.BankingApp.util.ConvertDate;
 import com.example.BankingApp.util.EmailValidator;
 import com.example.BankingApp.util.PhoneNumberValidator;
@@ -35,40 +36,94 @@ public class AccountServiceImpl implements AccountService {
     private final EmailValidator emailValidator;
     private final BalanceService balanceService;
 
-    @Override
-    public AccountsModel createAccount(AccountsModel accountsModel) {
-        if (!phoneNumberValidator.isValid(accountsModel.getPhoneNo())) {
-            throw new NotValidException("Invalid phone number: " + accountsModel.getPhoneNo());
+//    @Override
+//    public AccountsModel createAccount(AccountsModel accountsModel) {
+//        if (!phoneNumberValidator.isValid(accountsModel.getPhoneNo())) {
+//            throw new NotValidException("Invalid phone number: " + accountsModel.getPhoneNo());
+//        }
+//        if (!emailValidator.isValidEmail(accountsModel.getEmail())) {
+//            throw new NotValidException("Invalid Email Address: " + accountsModel.getEmail());
+//        }
+//        if(ConvertDate.calculateAge(accountsModel.getDob())<18){
+//            throw new NotValidException("Under 18 years can not open an account ");
+//        }
+//        Gender gender=genderRepository.findById(accountsModel.getGenderId())
+//                .orElseThrow(()->new NotFoundException("Invalid Gender Type" +
+//                 accountsModel.getGenderId() ));
+//        Education education=educationRepository.findById(accountsModel.getEducationId())
+//                .orElseThrow(()->new NotFoundException("Degree type not found" +
+//                        accountsModel.getEducationId()));
+//        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
+//                .orElseThrow(()->new NotFoundException("Invalid Account Type" +
+//                        accountsModel.getAccountTypeId() ));
+//        List<Long> accountsNoList=accountsRepository.findAll()
+//                .stream()
+//                .map(Accounts::getAccountNo)
+//                .collect(Collectors.toList());
+//        Long lastAccountNo = accountsNoList.isEmpty() ?
+//                null : accountsNoList.get(accountsNoList.size() - 1);
+//        Long accountNo=new Accounts().generateAccountNo(lastAccountNo,accountsModel,accountsNoList);
+//        Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType,accountNo);
+//        accounts = accountsRepository.save(accounts);
+//        BalanceModel createBalance=balanceService.createBalance(accounts);
+//        EducationModel educationModel=new EducationModel().SetEducationModel(education);
+//        GenderModel genderModel=new GenderModel().SetGenderModel(gender);
+//        AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);
+//        return new AccountsModel().SetAccountModel(accounts,educationModel,genderModel, accountTypeModel);
+//    }
+@Override
+public AccountsModel createAccount(AccountsModel accountsModel) {
+    //bijoy
+    accountsModel.setName(convertToUtf8IfAscii(accountsModel.getName()));
+    if (!phoneNumberValidator.isValid(accountsModel.getPhoneNo())) {
+        throw new NotValidException("Invalid phone number: " + accountsModel.getPhoneNo());
+    }
+
+    if (!emailValidator.isValidEmail(accountsModel.getEmail())) {
+        throw new NotValidException("Invalid Email Address: " + accountsModel.getEmail());
+    }
+
+    if (ConvertDate.calculateAge(accountsModel.getDob()) < 18) {
+        throw new NotValidException("Under 18 years cannot open an account");
+    }
+    Gender gender = genderRepository.findById(accountsModel.getGenderId())
+            .orElseThrow(() -> new NotFoundException("Invalid Gender Type: " + accountsModel.getGenderId()));
+
+    Education education = educationRepository.findById(accountsModel.getEducationId())
+            .orElseThrow(() -> new NotFoundException("Degree type not found: " + accountsModel.getEducationId()));
+
+    AccountType accountType = accountTypeRepository.findById(accountsModel.getAccountTypeId())
+            .orElseThrow(() -> new NotFoundException("Invalid Account Type: " + accountsModel.getAccountTypeId()));
+
+
+    List<Long> accountsNoList = accountsRepository.findAll()
+            .stream()
+            .map(Accounts::getAccountNo)
+            .collect(Collectors.toList());
+
+    Long lastAccountNo = accountsNoList.isEmpty() ? null : accountsNoList.get(accountsNoList.size() - 1);
+    Long accountNo = new Accounts().generateAccountNo(lastAccountNo, accountsModel, accountsNoList);
+
+
+    Accounts accounts = new Accounts().SetAccount(accountsModel, education, gender, accountType, accountNo);
+    accounts = accountsRepository.save(accounts);
+
+
+    BalanceModel createBalance = balanceService.createBalance(accounts);
+
+    EducationModel educationModel = new EducationModel().SetEducationModel(education);
+    GenderModel genderModel = new GenderModel().SetGenderModel(gender);
+    AccountTypeModel accountTypeModel = new AccountTypeModel().SetAccountModel(accountType);
+
+    return new AccountsModel().SetAccountModel(accounts, educationModel, genderModel, accountTypeModel);
+}
+
+
+    private String convertToUtf8IfAscii(String input) {
+        if (BijoyToUnicodeConverter.isBijoyAscii(input)) {
+            return BijoyToUnicodeConverter.convert(input);
         }
-        if (!emailValidator.isValidEmail(accountsModel.getEmail())) {
-            throw new NotValidException("Invalid Email Address: " + accountsModel.getEmail());
-        }
-        if(ConvertDate.calculateAge(accountsModel.getDob())<18){
-            throw new NotValidException("Under 18 years can not open an account ");
-        }
-        Gender gender=genderRepository.findById(accountsModel.getGenderId())
-                .orElseThrow(()->new NotFoundException("Invalid Gender Type" +
-                 accountsModel.getGenderId() ));
-        Education education=educationRepository.findById(accountsModel.getEducationId())
-                .orElseThrow(()->new NotFoundException("Degree type not found" +
-                        accountsModel.getEducationId()));
-        AccountType accountType= accountTypeRepository.findById(accountsModel.getAccountTypeId())
-                .orElseThrow(()->new NotFoundException("Invalid Account Type" +
-                        accountsModel.getAccountTypeId() ));
-        List<Long> accountsNoList=accountsRepository.findAll()
-                .stream()
-                .map(Accounts::getAccountNo)
-                .collect(Collectors.toList());
-        Long lastAccountNo = accountsNoList.isEmpty() ?
-                null : accountsNoList.get(accountsNoList.size() - 1);
-        Long accountNo=new Accounts().generateAccountNo(lastAccountNo,accountsModel,accountsNoList);
-        Accounts accounts =new Accounts().SetAccount(accountsModel,education,gender,accountType,accountNo);
-        accounts = accountsRepository.save(accounts);
-        BalanceModel createBalance=balanceService.createBalance(accounts);
-        EducationModel educationModel=new EducationModel().SetEducationModel(education);
-        GenderModel genderModel=new GenderModel().SetGenderModel(gender);
-        AccountTypeModel accountTypeModel =new AccountTypeModel().SetAccountModel(accountType);
-        return new AccountsModel().SetAccountModel(accounts,educationModel,genderModel, accountTypeModel);
+        return input;
     }
 
     @Override
